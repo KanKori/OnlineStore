@@ -8,7 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Table(name = "PurchaseItem")
+@Table(name = "purchase_item")
 @Entity
 @Data
 public class PurchaseItemEntity extends BaseEntity {
@@ -22,5 +22,5 @@ public class PurchaseItemEntity extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private OrderEntity orderEntity;
+    private OrdersEntity ordersEntity;
 }

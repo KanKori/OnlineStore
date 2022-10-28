@@ -7,11 +7,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@Table(name = "User")
+@Table(name = "users", schema = "public")
 @Entity
 @Data
-@ToString(exclude = "password")
-public class UserEntity extends BaseEntity {
+@ToString
+public class UsersEntity extends BaseEntity {
+
     @Column
     private String name;
 

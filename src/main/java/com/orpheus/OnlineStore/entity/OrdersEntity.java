@@ -8,19 +8,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Table(name = "Order")
+@Table(name = "orders")
 @Entity
 @Data
-public class OrderEntity extends BaseEntity {
+public class OrdersEntity extends BaseEntity {
 
     @Column
     private String comment;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity userEntity;
+    @JoinColumn(name = "users_id")
+    private UsersEntity usersEntity;
 
-    @ManyToOne
-    @JoinColumn(name = "purchase_item_id")
-    private PurchaseItemEntity purchaseItemEntity;
 }
