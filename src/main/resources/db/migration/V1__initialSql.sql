@@ -1,76 +1,59 @@
--- Table: public.Products
+-- Table: public.products
 
--- DROP TABLE IF EXISTS public."Products";
+-- DROP TABLE IF EXISTS public."products";
 
-CREATE TABLE IF NOT EXISTS public."Products"
+CREATE TABLE IF NOT EXISTS public."products"
 (
-    id integer NOT NULL,
+    id character varying NOT NULL,
     title character varying(50) COLLATE pg_catalog."default",
     description text COLLATE pg_catalog."default",
     image text COLLATE pg_catalog."default",
     price DOUBLE PRECISION,
-    CONSTRAINT "Products_pkey" PRIMARY KEY (id)
+    CONSTRAINT "products_pkey" PRIMARY KEY (id)
 )
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public."Products"
+ALTER TABLE IF EXISTS public."products"
     OWNER to postgres;
 
-CREATE TABLE public."PurchaseItem"
+
+-- Table: public.users
+
+-- DROP TABLE IF EXISTS public."users";
+
+CREATE TABLE IF NOT EXISTS public."users"
 (
-    id integer NOT NULL,
-    product_id integer,
-    count integer DEFAULT 1,
-    PRIMARY KEY (id),
-    CONSTRAINT "Invoice_products_id_fkey" FOREIGN KEY (product_id)
-        REFERENCES public."Products" (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-        NOT VALID
-);
-
-ALTER TABLE IF EXISTS public."PurchaseItem"
-    OWNER to postgres;
-
--- Table: public.User
-
--- DROP TABLE IF EXISTS public."User";
-
-CREATE TABLE IF NOT EXISTS public."User"
-(
-    id integer NOT NULL,
+    id character varying COLLATE pg_catalog."default" NOT NULL,
     name character varying COLLATE pg_catalog."default" NOT NULL,
     surname character varying COLLATE pg_catalog."default",
     email character varying COLLATE pg_catalog."default" NOT NULL,
-    telephone character varying COLLATE pg_catalog."default",
+    phone character varying COLLATE pg_catalog."default",
     password character varying COLLATE pg_catalog."default",
     role text COLLATE pg_catalog."default",
-    adress character varying COLLATE pg_catalog."default",
-    CONSTRAINT "User_pkey" PRIMARY KEY (id)
+    address character varying COLLATE pg_catalog."default",
+    status character varying COLLATE pg_catalog."default",
+    CONSTRAINT "users_pkey" PRIMARY KEY (id)
 )
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public."User"
+ALTER TABLE IF EXISTS public."users"
     OWNER to postgres;
 
--- Table: public.Order
 
--- DROP TABLE IF EXISTS public."Order";
+-- Table: public.orders
 
-CREATE TABLE IF NOT EXISTS public."Order"
+-- DROP TABLE IF EXISTS public."orders";
+
+CREATE TABLE IF NOT EXISTS public."orders"
 (
-    id integer NOT NULL,
-    user_id integer,
-    purchase_item_id integer,
-    CONSTRAINT "Order_pkey" PRIMARY KEY (id),
-    CONSTRAINT purchase_item_order_fk FOREIGN KEY (purchase_item_id)
-        REFERENCES public."PurchaseItem" (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
-    CONSTRAINT user_order_fk FOREIGN KEY (user_id)
-        REFERENCES public."User" (id) MATCH SIMPLE
+    id character varying NOT NULL,
+    users_id character varying,
+    comment text,
+    CONSTRAINT "orders_pkey" PRIMARY KEY (id),
+    CONSTRAINT users_orders_fk FOREIGN KEY (users_id)
+        REFERENCES public."users" (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
         NOT VALID
@@ -78,7 +61,26 @@ CREATE TABLE IF NOT EXISTS public."Order"
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public."Order"
+ALTER TABLE IF EXISTS public."orders"
     OWNER to postgres;
 
+CREATE TABLE public."purchase_item"
+(
+    id character varying NOT NULL,
+    product_id character varying,
+    order_id character varying,
+    count integer DEFAULT 1,
+    PRIMARY KEY (id),
+    CONSTRAINT "purchase_item_products_id_fkey" FOREIGN KEY (product_id)
+        REFERENCES public."products" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    constraint purchase_item_table_order_table_id_fk foreign key (order_id)
+    references public."orders" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+);
 
+ALTER TABLE IF EXISTS public."purchase_item"
+    OWNER to postgres;
