@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -20,6 +21,20 @@ public class PurchaseServiceImpl implements PurchaseService {
     private final UserService userService;
     private final OrdersEntityRepository ordersEntityRepository;
 
+    private Map<String, Integer> getProductIdProductCountMap(FinishPurchaseRequest request) {
+        Map<String, Integer> productIdProductCount = new HashMap<>();
+        request.getProductIds().forEach(it -> {
+            if (productIdProductCount.containsKey(it.getBytes())) {
+                Integer productCount = productIdProductCount.get(it.getBytes());
+                productCount = ++productCount;
+                productIdProductCount.put(String.valueOf(it.getBytes()), productCount);
+            } else {
+                productIdProductCount.put(String.valueOf(it.getBytes()), 1);
+            }
+        });
+        return productIdProductCount;
+    }
+
     @Override
     public String finishPurchase(FinishPurchaseRequest request) {
         log.info("creating order from request: {}", request);
@@ -28,8 +43,9 @@ public class PurchaseServiceImpl implements PurchaseService {
                 request.getUsersPhone(), request.getUsersEmail(), request.getUsersAddress()));
         ordersEntity.setComment(request.getComment());
         ordersEntity = ordersEntityRepository.save(ordersEntity);
+        Map<String, Integer> productIdProductCount =  getProductIdProductCountMap(request);
 
-        for (Map.Entry<String, Integer> entry : request.getProductIdProductCount().entrySet()) {
+        for (Map.Entry<String, Integer> entry : productIdProductCount.entrySet()) {
             String k = entry.getKey();
             Integer v = entry.getValue();
             ProductEntity productEntity = productService.findById(k);
@@ -39,5 +55,6 @@ public class PurchaseServiceImpl implements PurchaseService {
             p.setOrdersEntity(ordersEntity);
         }
         return ordersEntity.getId();
+
     }
 }

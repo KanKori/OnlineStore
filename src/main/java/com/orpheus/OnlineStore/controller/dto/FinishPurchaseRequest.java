@@ -6,14 +6,14 @@ import lombok.Data;
 import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Map;
 
 @Data
 public class FinishPurchaseRequest {
 
-    //key - id
     @NotNull
-    private Map<String, Integer> productIdProductCount;
+    private List<String> productIds;
 
     @NotEmpty
     private String usersName;
