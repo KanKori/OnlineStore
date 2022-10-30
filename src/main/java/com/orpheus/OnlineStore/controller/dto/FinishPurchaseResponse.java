@@ -3,8 +3,8 @@ package com.orpheus.OnlineStore.controller.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@AllArgsConstructor
 @Data
+@AllArgsConstructor
 public class FinishPurchaseResponse {
     private String orderId;
 }

@@ -1,33 +1,36 @@
 package com.orpheus.OnlineStore.controller.dto;
 
 //все поля нужные для пурчес
+import com.orpheus.OnlineStore.entity.ProductEntity;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Map;
 
 @Data
+@ToString()
 public class FinishPurchaseRequest {
 
-    //key - id
     @NotNull
-    private Map<String, Integer> productIdProductCount;
+    private List<ProductEntity> productEntityList;
 
     @NotEmpty
-    private String usersName;
+    private String userName;
 
-    private String usersSurname;
-
-    @NotEmpty
-    private String usersEmail;
+    private String userSurname;
 
     @NotEmpty
-    private String usersPhone;
+    private String email;
 
     @NotEmpty
-    private String usersAddress;
+    private String phone;
+
+    @NotEmpty
+    private String address;
 
     private String comment;
 
