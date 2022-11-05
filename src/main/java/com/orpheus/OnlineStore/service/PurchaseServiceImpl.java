@@ -14,8 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-@Slf4j
 @AllArgsConstructor
+@Slf4j
 public class PurchaseServiceImpl implements PurchaseService {
 
     private final ProductService productService;

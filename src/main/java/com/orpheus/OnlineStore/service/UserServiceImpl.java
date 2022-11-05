@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
         usersEntity = new UsersEntity();
         usersEntity.setRole(CUSTOMER.name());
         usersEntity.setName(name);
-        usersEntity.setName(surname);
+        usersEntity.setSurname(surname);
         usersEntity.setAddress(address);
         usersEntity.setPhone(phone);
         usersEntity.setEmail(email);
