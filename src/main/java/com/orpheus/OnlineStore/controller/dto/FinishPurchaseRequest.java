@@ -1,18 +1,21 @@
 package com.orpheus.OnlineStore.controller.dto;
 
-//все поля нужные для пурчес
 import com.orpheus.OnlineStore.entity.ProductEntity;
 import lombok.Data;
 import lombok.ToString;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * Class for describing finish purchase request
+ * @author Anastasiia Voshchenko
+ * @since 2022
+ * @version %I%, %G%
+ */
 @Data
-@ToString()
+@ToString(exclude = "password")
 public class FinishPurchaseRequest {
 
     @NotNull
@@ -22,6 +25,8 @@ public class FinishPurchaseRequest {
     private String userName;
 
     private String userSurname;
+
+    private String password;
 
     @NotEmpty
     private String email;
